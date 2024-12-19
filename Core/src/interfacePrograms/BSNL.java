@@ -19,7 +19,7 @@ public class BSNL implements SIMCardInterface
 	@Override
 	public void networkprovider() 
 	{
-		System.out.println("jio is a network privider");
+		System.out.println("BSNL is a network privider");
 	}
 
 	@Override

@@ -7,13 +7,15 @@ public class MobilePhone implements MobilePhoneInterface
 	public MobilePhone(SIMCardInterface si) 
 	{
 	this.si = si;
+	si.phonenumber();
+	si.networkprovider();
+	si.status();
 	}
 
 	@Override
 	public void inserting() 
 	{
 		System.out.println("Sim interdetd");
-		
 	}
 
 	@Override
@@ -36,14 +38,26 @@ public class MobilePhone implements MobilePhoneInterface
 	
 	public static void main(String[] args) 
 	{	
+		MobilePhone m=null;
+		
 		Jio j=new Jio(true);
-		MobilePhone m=new MobilePhone(j);
+		m=new MobilePhone(j);
+		m.simOperation(m);
+		
+		BSNL b=new BSNL(true);
+		m=new MobilePhone(b);
+		m.simOperation(m);
+		
+		Airtel a=new Airtel(true);
+		m=new MobilePhone(a);
+		m.simOperation(m);
+		
+	}
+	void simOperation(MobilePhone m)
+	{
 		m.inserting();
 		m.removing();
 		m.makingCalls();
 		m.sendingTextMessage();
-		j.phonenumber();
-		j.networkprovider();
-		j.status();
 	}
 }

@@ -19,7 +19,7 @@ public class Airtel implements SIMCardInterface
 	@Override
 	public void networkprovider() 
 	{
-		System.out.println("jio is a network privider");
+		System.out.println("Airtel is a network privider");
 	}
 
 	@Override
