@@ -1,8 +1,14 @@
 package HIMS;
 import javax.swing.*;
 import java.util.List;
+import java.util.Scanner;
 import java.util.ArrayList;
 import java.awt.Dimension;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 
 public class HIMS {
@@ -36,13 +42,17 @@ public class HIMS {
 	panel.add(go);
 	go.addActionListener( a->
 	{
-	   paitent();
+	   try {
+		paitent();
+	} catch (SQLException e) {
+		e.printStackTrace();
+	}
 	});
 	
 	panel.add(dc);
 	dc.addActionListener(a->
 	{
-		doctor();
+		doctorDisp();
 	});
 	
 	panel.add(ap);
@@ -54,7 +64,7 @@ public class HIMS {
 	jf.setVisible(true);
     }
 
-    public static void paitent()
+    public static void paitent() throws SQLException
     {
 	JTextField[] inputFields = addData(panel);
 
@@ -87,75 +97,137 @@ public class HIMS {
 	panel.add(j);
 	panel.revalidate(); 
     panel.repaint(); 
-	});
+			});
     
 	panel.add(dc);
 	panel.add(go);
 	panel.add(ap);
     }
 
-    public static JTextField[] addData(JPanel panel) {
+    public static JTextField[] addData(JPanel panel) throws SQLException {
 	JLabel label = new JLabel("<html><br></html>");
 	panel.add(label);
-        JLabel idLabel = new JLabel("Enter Patient ID:");
-        JTextField idField = new JTextField(15);
-        idField.setPreferredSize(new Dimension(200, 30));
-        panel.add(idLabel);
-        panel.add(idField);
+	
+	String url = "jdbc:oracle:thin:@localhost:1521:xe";
+    String username = "c##mohan";
+    String password = "123";
+    
+        try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+		
 
+        Connection connection = DriverManager.getConnection(url, username, password);
+       
+        System.out.println("Connection established successfully!");
+        
+        Scanner sc=new Scanner(System.in);
         JLabel nameLabel = new JLabel("Enter Patient Name:");
         JTextField nameField = new JTextField(15);
         nameField.setPreferredSize(new Dimension(200,30));
         panel.add(nameLabel);
         panel.add(nameField);
-
-        JLabel roomLabel = new JLabel("Enter Patient Room Number:");
-        JTextField roomField = new JTextField(15);
-        roomField.setPreferredSize(new Dimension(200,30));
-        panel.add(roomLabel);
-        panel.add(roomField);
-
         JLabel dateLabel = new JLabel("Enter Patient Admit Date:");
         JTextField dateField = new JTextField(15);
         dateField.setPreferredSize(new Dimension(200,30));
         panel.add(dateLabel);
         panel.add(dateField);
+        JLabel idLabel = new JLabel("Enter Patient ID:");
+        JTextField idField = new JTextField(15);
+        panel.add(idLabel);
+        panel.add(idField);
+        JLabel roomLabel = new JLabel("Enter Patient Room Number:");
+        JTextField roomField = new JTextField(15);
+        roomField.setPreferredSize(new Dimension(200,30));
+        panel.add(roomLabel);
+        panel.add(roomField);
+        String query = "insert into paitent values(?,?,?,?)"; 
+        System.out.println("Data enterd succefully:");
+        
+        int id = Integer.parseInt(idField.getText());
+        //String name = nameField.getText();
+        int roomNo = Integer.parseInt(roomField.getText()); // Convert Room No to number
+        String dateText = dateField.getText();
 
+        
+        PreparedStatement pst = connection.prepareStatement(query);
+        System.out.println("Data enterd succefully:");
+        pst.setString(2,nameField.toString());
+        System.out.println("Done");
+        pst.setInt(1,(id));
+        System.out.println("Done");
+        pst.setInt(3,roomNo);
+        System.out.println("Done");
+        pst.setString(4,dateText);
+        System.out.println("Data enterd succefully:");
+        pst.executeUpdate();
+        System.out.println("Data enterd succefully:");
+        
+        sc.close();
         return new JTextField[]{idField, nameField, roomField, dateField};
+
+        }
+        catch (ClassNotFoundException e) {
+        	e.printStackTrace();
+        	return null;
+        }
+		
+	
+        
+        //idField.setPreferredSize(new Dimension(200, 30));
+
     }
 
-   public static void doctor()
-   {
-	List<String> did=new ArrayList<String>();
-	List<String> dname=new ArrayList<String>();
-	List<String> dspecialisation=new ArrayList<String>();
-	did.add("01");
-	dname.add("AAA");
-	dspecialisation.add("DHMS");
-	did.add("02");
-	dname.add("BBB");
-	dspecialisation.add("MS");
-	did.add("03");
-	dname.add("CCC");
-	dspecialisation.add("MD");
-	did.add("04");
-	dname.add("DDD");
-	dspecialisation.add("MBBS");
-	did.add("05");
-	dname.add("EEE");
-	dspecialisation.add("Neuro");
-	doctorDisp(did,dname,dspecialisation);
-   }
 
-   public static void doctorDisp(List<String> did,List<String> dname,List<String> dspecialisation)
+   public static void doctorDisp()
    {
 	StringBuilder sb = new StringBuilder();
-	for (int i = 0; i < did.size(); i++) 
-	{
-      sb.append("Doctor's ID: ").append(did.get(i))
-      .append("      Doctor's Name: ").append(dname.get(i))
-      .append("      Doctor's Specialisation: ").append(dspecialisation.get(i)).append("<br><br>");
-	}
+	String url = "jdbc:oracle:thin:@localhost:1521:xe";
+    String username = "c##mohan";
+    String password = "123";
+    
+        try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+		} catch (ClassNotFoundException e1) {
+			e1.printStackTrace();
+		}
+
+        Connection connection = null;
+		try {
+			connection = DriverManager.getConnection(url, username, password);
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+        
+        
+        String display="Select * from doctor";
+        
+        PreparedStatement pst = null;
+		try {
+			pst = connection.prepareStatement(display);
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+        ResultSet rs = null;
+		try {
+			rs = pst.executeQuery();
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+        try {
+			while(rs.next())
+			{
+				//System.out.println("Did :"+rs.getInt(1)+" Name :"+rs.getString(2)+" Doctor's specialisation :"+rs.getString(3));
+				sb=sb.append(rs.getInt(1));
+				sb=sb.append(" &nbsp ");
+				sb=sb.append(rs.getString(2));
+				sb=sb.append(" &nbsp ");
+				sb=sb.append(rs.getString(3));
+				sb=sb.append("<br>");
+			}
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+
 
 	JLabel label = new JLabel("<html>" + sb + "</html>");
 

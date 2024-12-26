@@ -1,5 +1,6 @@
 package functionalInterface;
 
+import java.util.Random;
 import java.util.function.Supplier;
 
 public class RandomValueGenerator
@@ -16,7 +17,8 @@ public class RandomValueGenerator
 		
 		Supplier<Integer> s2=()->
 		{
-			return (int)((Math.random()*(92-57)+1)+57);
+			Random r=new Random();
+			return r.nextInt(57,92);
 		};
 		System.out.println(s2.get());
 	}
