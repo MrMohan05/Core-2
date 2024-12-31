@@ -7,8 +7,8 @@ public class ClassNotFoundExpDemo
 		Class c;
 		try
 		{
-			c=Class.forName("exceptionHandling.test");
-			System.out.println("Class found");
+			c=Class.forName("java.lang.String");
+			System.out.println("Class found :"+c.getName());
 		}
 		catch (ClassNotFoundException e)
 		{
