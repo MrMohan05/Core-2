@@ -3,7 +3,7 @@ package practice;
 public class AssignmentTask extends Task
 {
 	String dueDate;
-
+	int id;
 	public AssignmentTask(String dueDate,String taskame,int priority)
 	{
 		super.priority=priority;
@@ -28,5 +28,9 @@ public class AssignmentTask extends Task
 		System.out.println("Task compleation status :"+a.completeTask());
 		System.out.println("Task total information :"+a.displayTaskInfo());
 		System.out.println(a.displayPriority());
+	}
+	static int add(AssignmentTask a1)
+	{
+		return a1.id;
 	}
 }
