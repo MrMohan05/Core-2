@@ -12,6 +12,7 @@ public class ATM
 			System.out.println("Enter account number :");
 			long account=sc.nextLong();
 			BankAccount b=new BankAccount(account,25000);
+			BankAccount b1=new BankAccount(582,10000);
 			Customer c=new Customer(name, b);
 			double balance;
 			int t=1;
@@ -38,10 +39,11 @@ public class ATM
 				case 3:
 					System.out.println("Account name :"+c.getName());
 					System.out.print("Enter account number :");
-					//long l=sc.nextLong(); 
+					long l=sc.nextLong(); 
+					b1.setAccountNumber(l);
 					System.out.print("Enter amount to transfer :");
 					balance=sc.nextInt();
-					b.transfer(b, balance);
+					b.transfer(b1, balance);
 					break;
 				case 4:
 					System.out.println("Account name :"+c.getName());

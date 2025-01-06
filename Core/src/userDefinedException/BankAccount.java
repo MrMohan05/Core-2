@@ -43,11 +43,17 @@ public class BankAccount implements Bank
 		{
 			throw new InsufficientFundsException("You do not have that much amount to withdraw from your account");
 		}
-		if(toAccount == null )
+		if(toAccount.accountNumber==accountNumber)
 		{
-			throw new AccountNotFoundException("Account does not exist");
+			throw new AccountNotFoundException("Account must not be same");
 		}
 		balance-=amount;
+		toAccount.balance+=amount;
+		System.out.println("Sender blance :"+getBalance());
+		System.out.println("Reciver balance :"+toAccount.getBalance());
+	}
+	public void setAccountNumber(long accountNumber) {
+		this.accountNumber = accountNumber;
 	}
 	@Override
 	public void applyForLoan(double amount) throws LoanNotAllowedException, InvalidAmountException 
