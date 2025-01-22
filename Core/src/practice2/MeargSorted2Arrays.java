@@ -9,6 +9,7 @@ public class MeargSorted2Arrays
 		int c[]=new int[6];
 		int i=0,j=0,k=0;
 		//System.out.println(a.length);
+		String arg=""; arg.length();
 		while(i<a.length && j<b.length)
 		{
 			System.out.println("Elements :"+a[i]+"  "+b[j]);

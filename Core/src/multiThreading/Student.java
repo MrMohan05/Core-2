@@ -1,6 +1,6 @@
 package multiThreading;
 
-public class Student 
+public class Student extends Thread
 {
 	EducationInstitute institue;
 	String name;
@@ -10,7 +10,7 @@ public class Student
 		this.institue = institue;
 		this.name = name;
 	}
-	public void viewCoursesAndFees()
+	public void viewCoursesAndFees() throws InterruptedException
 	{
 		for(Course c:institue.courses) 
 		{
@@ -18,6 +18,7 @@ public class Student
 		System.out.println("Course ID :"+c.courseId);
 		System.out.println("Course Fees :"+c.courseFee);
 		System.out.println();
+		sleep(500);
 		}
 	}
 	
